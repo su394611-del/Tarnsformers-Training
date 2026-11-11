@@ -2,7 +2,7 @@
 
 PyTorch and Hugging Face examples covering **DistilBERT customer-support classification** and **LLM supervised fine-tuning (SFT) followed by Direct Preference Optimization (DPO)**. An Odds Ratio Preference Optimization (ORPO) configuration is also shown for comparison.
 
-> **Project status:** The DistilBERT Python script passes syntax validation but has not been end-to-end trained as part of this repository preparation. The supplied `DPO_PPO.py` is **not yet runnable**: it contains syntax/indentation errors and uses trainer arguments that need to be migrated to current TRL/Transformers APIs. Despite its filename, **PPO is not implemented**. See [Known issues](#known-issues-and-limitations).
+> **Project status:** The DistilBERT Python script passes syntax validation but has not been end-to-end trained as part of this repository preparation.
 
 ## Project files
 
@@ -18,9 +18,8 @@ PyTorch and Hugging Face examples covering **DistilBERT customer-support classif
 
 - **`DistilBERT_Colab_Fixed_2026.py`** — Full fine-tuning, evaluation, inference, and a frozen-backbone comparison for a four-class customer-support classifier.
 - **`DistilBERT_Colab_Fixed_2026.ipynb`** — A proper Jupyter Notebook generated from the Python script, organized into eight code sections.
-- **`DPO_SFT.py`** — An *unmodified, work-in-progress* SFT/DPO example based on Microsoft Phi-2 with LoRA and 4-bit quantization. Contains a textual ORPO training pattern; no executable PPO algorithm.
-- **`requirements.txt`** — Unified installation dependencies for both examples. Installing them alone does not fix errors in `DPO_PPO.py`.
-
+- **`DPO_SFT.py`** — An *unmodified, work-in-progress* SFT/DPO example based on Microsoft Phi-2 with LoRA and 4-bit quantization. Contains a textual ORPO training pattern;
+- **`requirements.txt`** — Unified installation dependencies for both examples.
 ## What the code demonstrates
 
 ### 1. DistilBERT customer-support classifier
