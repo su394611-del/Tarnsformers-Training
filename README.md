@@ -1,6 +1,6 @@
 # Transformer Fine-Tuning and LLM Preference Alignment
 
-Educational PyTorch and Hugging Face examples covering **DistilBERT customer-support classification** and **LLM supervised fine-tuning (SFT) followed by Direct Preference Optimization (DPO)**. An Odds Ratio Preference Optimization (ORPO) configuration is also shown for comparison.
+PyTorch and Hugging Face examples covering **DistilBERT customer-support classification** and **LLM supervised fine-tuning (SFT) followed by Direct Preference Optimization (DPO)**. An Odds Ratio Preference Optimization (ORPO) configuration is also shown for comparison.
 
 > **Project status:** The DistilBERT Python script passes syntax validation but has not been end-to-end trained as part of this repository preparation. The supplied `DPO_PPO.py` is **not yet runnable**: it contains syntax/indentation errors and uses trainer arguments that need to be migrated to current TRL/Transformers APIs. Despite its filename, **PPO is not implemented**. See [Known issues](#known-issues-and-limitations).
 
