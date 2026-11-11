@@ -13,12 +13,12 @@ PyTorch and Hugging Face examples covering **DistilBERT customer-support classif
 ├── .gitignore
 ├── DistilBERT_Colab_Fixed_2026.py
 ├── DistilBERT_Colab_Fixed_2026.ipynb
-└── DPO_PPO.py
+└── DPO_SFT.py
 ```
 
 - **`DistilBERT_Colab_Fixed_2026.py`** — Full fine-tuning, evaluation, inference, and a frozen-backbone comparison for a four-class customer-support classifier.
 - **`DistilBERT_Colab_Fixed_2026.ipynb`** — A proper Jupyter Notebook generated from the Python script, organized into eight code sections.
-- **`DPO_PPO.py`** — An *unmodified, work-in-progress* SFT/DPO example based on Microsoft Phi-2 with LoRA and 4-bit quantization. Contains a textual ORPO training pattern; no executable PPO algorithm.
+- **`DPO_SFT.py`** — An *unmodified, work-in-progress* SFT/DPO example based on Microsoft Phi-2 with LoRA and 4-bit quantization. Contains a textual ORPO training pattern; no executable PPO algorithm.
 - **`requirements.txt`** — Unified installation dependencies for both examples. Installing them alone does not fix errors in `DPO_PPO.py`.
 
 ## What the code demonstrates
@@ -128,7 +128,7 @@ The `best_model` folder contains the saved fine-tuned model and tokenizer. Train
 
 ## Running the SFT/DPO project
 
-**Do not run `DPO_PPO.py` unchanged and expect training to start.** First fix the syntax errors and migrate the trainer calls. A syntax check exposes the first issue:
+**Do not run `DPO_SFT.py` unchanged and expect training to start.** First fix the syntax errors and migrate the trainer calls. A syntax check exposes the first issue:
 
 ```powershell
 python -m py_compile DPO_PPO.py
@@ -137,14 +137,14 @@ python -m py_compile DPO_PPO.py
 After correction, a typical command would be:
 
 ```powershell
-python DPO_PPO.py
+python DPO_SFT.py
 ```
 
 This command is documentation for a **future corrected version**, not a verified working run of the current file.
 
 ## Known issues and limitations
 
-- **`DPO_PPO.py` syntax:** The uploaded file has an unterminated multiline string at approximately line 44, widespread missing indentation, and other issues. Python cannot execute it as uploaded.
+- **`DPO_SFT.py` syntax:** The uploaded file has an unterminated multiline string at approximately line 44, widespread missing indentation, and other issues. Python cannot execute it as uploaded.
 - **TRL API compatibility:** The SFT and DPO calls use older patterns such as `tokenizer=`, `max_seq_length=`, and a `TrainingArguments` configuration with `warmup_ratio`. Current TRL commonly uses `processing_class` and `SFTConfig`/`DPOConfig` with updated fields. Update the source based on the exact installed versions rather than blindly upgrading packages.
 - **Prompt formatting:** The manual `<|system|>`, `<|user|>`, `<|assistant|>` delimiters are not a verified Phi-2 chat template; correct prompt and tokenizer formatting are needed.
 - **`bitsandbytes` / CUDA:** 4-bit NF4 training depends on supported hardware, CUDA-enabled PyTorch and compatible native binaries. A 4 GB GPU can still run out of memory with Phi-2.
@@ -154,7 +154,7 @@ This command is documentation for a **future corrected version**, not a verified
 
 ## Recommended next improvements
 
-- Fix and modernize `DPO_PPO.py` against a documented set of compatible `transformers`, `trl`, `peft` and `bitsandbytes` versions.
+- Fix and modernize `DPO_SFT.py` against a documented set of compatible `transformers`, `trl`, `peft` and `bitsandbytes` versions.
 - Replace placeholder chat delimiters with a tokenizer-aware prompt template and add held-out evaluation.
 - Expand the DistilBERT dataset and use multiple random seeds or cross-validation.
 - Add automated tests and reproducible version locks after the pipelines pass full integration tests.
