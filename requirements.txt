@@ -1,0 +1,20 @@
+# Unified dependency list for the DistilBERT and SFT/DPO examples.
+# Recommended: Python 3.12 in an isolated virtual/Conda environment.
+# PyTorch must be installed with an appropriate CUDA-enabled wheel separately
+# if GPU acceleration is required (see https://pytorch.org/get-started/locally/).
+# Installing these packages does NOT repair the existing syntax/API issues in DPO_PPO.py.
+
+torch>=2.6,<3
+transformers>=4.56,<6
+datasets>=3.0,<6
+accelerate>=1.0,<2
+peft>=0.16,<1
+trl>=0.20,<1
+bitsandbytes>=0.45,<1
+numpy>=1.26,<3
+pandas>=2.2,<4
+scikit-learn>=1.4,<2
+
+# Notebook support
+ipykernel>=6.29,<8
+jupyterlab>=4.2,<5
