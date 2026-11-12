@@ -1,6 +1,6 @@
 # Transformers Training — DistilBERT Classifier and Phi-2 Alignment Draft
 
- PyTorch/Hugging Face  **four-class customer-support text classification** and a separate **unfinished Phi-2 SFT/DPO design**.
+ PyTorch/Hugging Face **four-class customer-support text classification** and a separate **unfinished Phi-2 SFT/DPO design **. It will be introduced in the next iteration.
 
 > **Implementation status:** `DistilBERT_Colab_Fixed_2026.py` and its Jupyter notebook parse successfully. The classifier has not been run end-to-end as part of this packaging task. `DPO_SFT.py` is preserved **unchanged** but has Python syntax/indentation errors and cannot run. ORPO is only an example string that is not executed.
 
