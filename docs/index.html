@@ -1,57 +1,221 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1">
-
-  <title>Transformer Training | DistilBERT, PyTorch and Hugging Face</title>
-
-  <meta name="description"
-        content="Transformer model training with PyTorch,
-        Hugging Face Transformers, DistilBERT
-        classification, full fine-tuning,
-        frozen-backbone training, and a
-        proposed Phi-2 SFT/DPO workflow.">
-
-  <meta name="robots" content="index, follow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#091126">
+  <meta name="color-scheme" content="dark">
+  <title>Transformer Training: DistilBERT Fine-Tuning &amp; Classification | Sudhanshu Shukla</title>
+  <meta name="description" content="Explore a PyTorch and Hugging Face DistilBERT classifier for four customer-support categories. Compare full fine-tuning with a frozen backbone, evaluation, inference and Python notebooks.">
+  <meta name="author" content="Sudhanshu Shukla">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://su394611-del.github.io/Transformers-Training/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sudhanshu Shukla — AI Engineering">
+  <meta property="og:title" content="Transformer Training with PyTorch &amp; Hugging Face | DistilBERT">
+  <meta property="og:description" content="A technical walkthrough of DistilBERT customer-support classification, full fine-tuning, frozen-backbone comparison, evaluation and inference.">
+  <meta property="og:url" content="https://su394611-del.github.io/Transformers-Training/">
+  <meta property="og:image" content="https://su394611-del.github.io/assets/social-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Transformer Training — DistilBERT with PyTorch &amp; Hugging Face">
+  <meta name="twitter:description" content="Explore a source-linked Transformer classification walkthrough: fine-tuning strategies, four labels, evaluation and inference.">
+  <meta name="twitter:image" content="https://su394611-del.github.io/assets/social-preview.png">
+  <link rel="icon" type="image/svg+xml" href="https://su394611-del.github.io/assets/favicon.svg">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {"@type":"Person","@id":"https://su394611-del.github.io/#author","name":"Sudhanshu Shukla","url":"https://su394611-del.github.io/","sameAs":["https://github.com/su394611-del"]},
+      {"@type":"WebPage","@id":"https://su394611-del.github.io/Transformers-Training/#webpage","name":"Transformer Training: DistilBERT Fine-Tuning & Classification","url":"https://su394611-del.github.io/Transformers-Training/","description":"Technical walkthrough of DistilBERT text classification with full and frozen-backbone fine-tuning, PyTorch and Hugging Face.","inLanguage":"en","author":{"@id":"https://su394611-del.github.io/#author"},"mainEntity":{"@id":"https://su394611-del.github.io/Transformers-Training/#source"}},
+      {"@type":"SoftwareSourceCode","@id":"https://su394611-del.github.io/Transformers-Training/#source","name":"DistilBERT Customer-Support Classification","description":"Python example of four-class ticket classification using DistilBERT, Hugging Face Trainer, evaluation metrics, and inference.","codeRepository":"https://github.com/su394611-del/Transformers-Training","programmingLanguage":["Python"],"license":"https://www.apache.org/licenses/LICENSE-2.0","author":{"@id":"https://su394611-del.github.io/#author"},"isAccessibleForFree":true},
+      {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"AI Engineering Portfolio","item":"https://su394611-del.github.io/"},{"@type":"ListItem","position":2,"name":"Transformer Training","item":"https://su394611-del.github.io/Transformers-Training/"}]}
+    ]
+  }
+  </script>
+  <style>
+    :root{color-scheme:dark;--bg:#081121;--bg2:#0d1830;--card:#111f37;--card2:#152741;--line:#293c59;--ink:#ecf5ff;--muted:#b1c2d8;--soft:#849bb8;--cyan:#79e2f4;--violet:#bcb4ff;--mint:#8ce5c6;--gold:#f2d4a3;--max:1180px}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:90px}
+    body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.68 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+    body::before{content:"";pointer-events:none;position:absolute;top:0;left:0;right:0;height:900px;z-index:-1;background:radial-gradient(ellipse 640px 510px at 82% 18%,rgba(82,103,235,.18),transparent 72%),radial-gradient(ellipse 620px 470px at 12% 6%,rgba(42,180,196,.12),transparent 72%)}
+    a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--cyan);outline-offset:4px}
+    ::selection{color:#071322;background:var(--cyan)}
+    .wrap{width:min(var(--max),calc(100% - 48px));margin-inline:auto}
+    .skip{position:absolute;left:18px;top:-100px;background:white;color:#091126;padding:12px 16px;border-radius:8px;z-index:100}.skip:focus{top:12px}
+    .site-header{position:sticky;top:0;z-index:40;background:rgba(8,17,33,.89);border-bottom:1px solid rgba(133,162,200,.16);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+    .nav{min-height:76px;display:flex;justify-content:space-between;align-items:center;gap:18px}
+    .logo{display:flex;align-items:center;gap:12px;min-width:0}.logo-mark{display:grid;place-items:center;height:42px;width:42px;border-radius:12px;border:1px solid #5b9ebc;background:linear-gradient(145deg,#24476c,#183054);color:#b7ecf6;font-weight:850;font-size:17px;letter-spacing:-.09em;flex:none}.logo-txt{display:flex;flex-direction:column;min-width:0;line-height:1.25}.logo-txt strong{font-size:14px;letter-spacing:-.025em}.logo-txt small{font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:#90a6c1;font-weight:800;margin-top:3px}
+    .nav-links{display:flex;align-items:center;gap:24px}.nav-links a:not(.nav-cta){font-size:12px;font-weight:750;color:#b5c5dc}.nav-links a:hover{color:#fff}
+    .nav-cta,.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border-radius:11px;font-weight:760;transition:transform .18s,border-color .18s,background .18s}.nav-cta{padding:11px 14px;border:1px solid #47617e;font-size:12px}.nav-cta:hover,.btn:hover{transform:translateY(-2px)}
+    .mobile-menu{display:none;position:relative}.mobile-menu summary{list-style:none;cursor:pointer;border:1px solid #4c6485;background:#132641;border-radius:10px;padding:9px 12px;font-weight:700;font-size:12px}.mobile-menu summary::-webkit-details-marker{display:none}.mobile-menu .menu-links{position:absolute;top:calc(100% + 10px);right:0;width:230px;background:#15243e;border:1px solid #425773;border-radius:14px;padding:12px;box-shadow:0 20px 35px rgba(0,0,0,.3);display:grid;gap:4px}.mobile-menu .menu-links a{padding:10px 12px;border-radius:8px;font-size:13px}.mobile-menu .menu-links a:hover{background:#243a58}
+    .hero{padding:92px 0 55px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center}.eyebrow{display:inline-flex;align-items:center;gap:10px;color:#a3eeef;font-size:10px;letter-spacing:.15em;font-weight:850;text-transform:uppercase}.eyebrow .dot{height:8px;width:8px;display:inline-block;background:#8be2bc;border-radius:50%;box-shadow:0 0 0 5px rgba(139,226,188,.10)}
+    h1,h2,h3,p{margin-top:0}.hero h1{font-size:clamp(41px,4.65vw,66px);letter-spacing:-.065em;line-height:1.12;margin:24px 0 24px;font-weight:800}.gradient{background:linear-gradient(105deg,#70e1f6,#b8adff);-webkit-background-clip:text;background-clip:text;color:transparent}.hero-lead{font-size:17px;color:#c2d1e4;line-height:1.78;max-width:630px;margin-bottom:25px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap}.btn{border:1px solid #42617e;min-height:48px;padding:0 18px;font-size:13px;background:#14253f}.btn-primary{background:linear-gradient(115deg,#81e5f3,#bcb6ff);border-color:transparent;color:#0b1a31}.btn-ghost{color:#ebf5ff}.hero-note{margin:21px 0 0;color:#90a5c1;font-size:12px;line-height:1.65}
+    .model-panel{min-width:0;border:1px solid #37506c;border-radius:23px;padding:25px;min-height:440px;background:linear-gradient(150deg,rgba(30,53,86,.9),rgba(12,28,49,.95));position:relative;overflow:hidden;box-shadow:0 34px 85px rgba(0,0,0,.17)}.model-panel::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(116,156,202,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(116,156,202,.07) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;mask-image:linear-gradient(to bottom,#000,transparent)}.panel-label{position:relative;display:flex;align-items:center;justify-content:space-between;color:#a3bdd9;font-size:10px;letter-spacing:.13em;font-weight:850;text-transform:uppercase}.panel-label .light{color:#8ce5c6}
+    .pipeline-drawing{position:relative;display:grid;grid-template-columns:1fr;justify-items:center;gap:9px;margin:35px auto 20px}.draw-node{width:min(100%,335px);border:1px solid #43617e;border-radius:10px;background:#172d4b;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 14px;box-shadow:0 7px 18px rgba(0,0,0,.06)}.draw-node strong{font-size:12px;letter-spacing:.01em}.draw-node span{font-size:10px;color:#9eb6d2}.draw-node.main-node{background:linear-gradient(105deg,#2b4773,#293b72);border-color:#7a90d0;box-shadow:0 0 33px rgba(77,115,218,.13)}.draw-link{height:13px;width:1px;background:#71cce4;position:relative}.draw-link::after{content:"";position:absolute;bottom:0;left:-3px;width:7px;height:7px;border-bottom:1px solid #71cce4;border-right:1px solid #71cce4;transform:rotate(45deg)}.class-pills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:min(100%,335px);gap:8px}.class-pills span{background:#1a354c;border:1px solid #3b6a80;border-radius:8px;padding:8px 4px;text-align:center;color:#bfece4;font-size:10px;font-weight:780}.panel-foot{position:relative;color:#8aa4c4;font-size:10px;text-align:center;letter-spacing:.04em}
+    .numbers{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #2c425f;border-radius:16px;overflow:hidden;background:#2c425f;gap:1px;margin:12px auto 100px}.number{padding:23px 26px;background:#101e35}.number strong{display:block;font-size:27px;letter-spacing:-.045em;line-height:1.25}.number span{font-size:12px;color:#afc1d8}.number small{display:block;color:#8098b5;font-size:10px;margin-top:7px}
+    section.content-section{padding:0 0 102px}.heading{margin-bottom:33px}.kicker{color:#86e4f5;font-size:10px;font-weight:850;letter-spacing:.17em;text-transform:uppercase;margin-bottom:12px}.heading h2{font-size:clamp(29px,3.2vw,43px);letter-spacing:-.048em;line-height:1.2;margin:0 0 14px}.heading>p:last-child{max-width:780px;color:#b0c1d8;font-size:15px;line-height:1.8;margin:0}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px}.info-panel{border:1px solid var(--line);border-radius:18px;background:linear-gradient(160deg,#15243e,#0e1b30);padding:27px}.info-panel h3{font-size:18px;letter-spacing:-.025em;margin:0 0 10px}.info-panel p{font-size:13px;color:#b1c3d9;margin-bottom:0}.section-mini{display:inline-flex;gap:8px;align-items:center;font-size:10px;text-transform:uppercase;letter-spacing:.13em;font-weight:800;color:#90e1ef;margin-bottom:16px}.section-mini::before{content:"";width:7px;height:7px;background:#90e1ef;border-radius:2px}
+    .class-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:19px}.class-list>div{background:#192d48;border:1px solid #38516d;border-radius:11px;padding:13px}.class-list strong{display:block;font-size:13px}.class-list small{display:block;margin-top:5px;color:#9fb2ca;font-size:11px;line-height:1.5}
+    .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.step{border:1px solid var(--line);background:#111f35;border-radius:16px;padding:22px;min-height:175px}.step-num{font-size:11px;font-weight:850;color:#86e5f5;letter-spacing:.12em}.step h3{font-size:16px;letter-spacing:-.02em;margin:20px 0 8px}.step p{font-size:12.5px;color:#b0c1d7;line-height:1.7;margin:0}
+    .mode-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}.mode{border:1px solid #304967;border-radius:18px;background:linear-gradient(160deg,#182944,#111e34);padding:28px;min-width:0}.mode h3{font-size:20px;letter-spacing:-.035em;margin-bottom:10px}.mode p{font-size:13px;color:#bdcce1;margin-bottom:20px}.mode .mode-bar{height:7px;background:#344963;border-radius:10px;overflow:hidden;margin-bottom:10px}.mode .mode-bar>span{display:block;height:100%;width:100%;background:linear-gradient(90deg,#81e5f3,#b8b1ff)}.mode.frozen .mode-bar>span{width:5%;background:var(--mint)}.mode .mode-legend{font-size:10px;color:#8eaaca;display:flex;justify-content:space-between;margin-bottom:17px}.mode dl{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0}.mode dl>div{background:#1b314d;border-radius:9px;padding:11px}.mode dt{font-size:10px;color:#9bb4d1}.mode dd{font-weight:750;font-size:14px;margin:3px 0 0}
+    .feature-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.feature{border:1px solid var(--line);background:#111f35;border-radius:16px;padding:24px}.feature .glyph{display:grid;place-items:center;width:41px;height:41px;border-radius:12px;background:#223855;color:#9ee4f5;font-size:21px;margin-bottom:19px}.feature h3{font-size:16px;letter-spacing:-.02em;margin:0 0 9px}.feature p{color:#adc0d6;font-size:12.5px;margin:0;line-height:1.75}
+    .run-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:19px;align-items:start}.code-card{border:1px solid #33516d;border-radius:17px;overflow:hidden;background:#091425;min-width:0}.code-head{background:#152840;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #304562;padding:14px 18px}.code-head strong{font-size:12px}.copy-btn{background:#243d5c;color:#d7eef9;border:1px solid #42627c;border-radius:8px;padding:7px 10px;font-size:11px;font-weight:750}.copy-btn:hover{background:#2d4a6b}pre{margin:0;padding:22px;overflow-x:auto;white-space:pre;line-height:1.95;font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;font-size:12px;color:#d6e7fb}pre .comment{color:#8298b5}pre .cmd{color:#96ebdb}.run-notes{display:grid;gap:13px}.run-note{background:#14263e;border:1px solid #304865;border-radius:13px;padding:17px}.run-note strong{font-size:13px}.run-note p{font-size:12px;color:#acbed6;margin:5px 0 0}.run-note a{color:#a0edfa;text-decoration:underline;text-underline-offset:3px}
+    .note{margin:23px 0 0;color:#acbdd4;font-size:12px;border-left:3px solid #7bbdd9;padding:8px 0 8px 16px;max-width:880px;line-height:1.8}
+    .outputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}.output{border:1px solid var(--line);padding:24px;border-radius:16px;background:#111f35;min-width:0}.output h3{font-size:17px;margin:0 0 10px}.output ul{padding-left:19px;margin:0;color:#aec1d8;font-size:13px}.output li{margin:8px 0}.sample-json{max-width:100%;padding:15px;border-radius:10px;background:#0b1628;border:1px solid #294562;overflow-x:auto;color:#b6f0dc;font:12px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;margin:15px 0 0;white-space:pre}
+    .docs-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.resource{background:#14253e;border:1px solid #304c69;border-radius:15px;padding:21px;transition:transform .2s,border-color .2s}.resource:hover{transform:translateY(-3px);border-color:#83c6e8}.resource small{color:#90b6d0;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:850}.resource strong{display:block;font-size:15px;margin:9px 0}.resource span{color:#aebfd4;font-size:12px;line-height:1.6;display:block}.resource .arrow{float:right;color:#7bd9e9;font-size:17px}
+    .faqs{display:grid;gap:10px}.faqs details{border:1px solid #304762;background:#112038;border-radius:12px;padding:0 19px}.faqs summary{cursor:pointer;font-size:14px;font-weight:700;padding:18px 0;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px}.faqs summary::-webkit-details-marker{display:none}.faqs summary::after{content:"+";color:#89dbed;font-size:20px;line-height:1}.faqs details[open] summary::after{content:"−"}.faqs p{border-top:1px solid #304762;padding-top:15px;color:#b1c4db;font-size:13px;margin-bottom:18px}
+    .footer{border-top:1px solid #273d59;padding:30px 0 42px}.footer-inner{display:flex;justify-content:space-between;align-items:start;gap:20px;flex-wrap:wrap}.footer strong{display:block;font-size:13px}.footer p{font-size:11px;color:#8fa6c3;margin:6px 0 0}.footer-links{display:flex;gap:18px;flex-wrap:wrap}.footer-links a{font-size:12px;color:#c0d8ec}.footer-links a:hover{text-decoration:underline}
+    @media(max-width:1000px){.nav-links{gap:15px}.hero{gap:25px}.numbers .number{padding:20px 17px}.feature-grid,.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:760px){.nav-links{display:none}.mobile-menu{display:block}.hero{padding:63px 0 40px;grid-template-columns:1fr;gap:36px}.model-panel{min-height:420px}.numbers{margin-bottom:78px}.two-col,.mode-grid,.run-layout,.outputs{grid-template-columns:minmax(0,1fr)}.docs-grid{grid-template-columns:repeat(2,minmax(0,1fr))}section.content-section{padding-bottom:77px}.hero h1{max-width:610px}}
+    @media(max-width:520px){.wrap{width:calc(100% - 32px)}.nav{min-height:66px}.logo-mark{height:38px;width:38px}.logo-txt strong{font-size:12px}.logo-txt small{font-size:8px}.hero{padding-top:53px}.hero h1{font-size:clamp(38px,10.5vw,56px)}.hero-lead{font-size:15px}.hero-actions{display:grid;grid-template-columns:1fr 1fr}.hero-actions .btn{font-size:11px;padding:0 9px}.model-panel{padding:17px;min-height:385px}.panel-label{font-size:9px}.pipeline-drawing{margin-top:30px}.draw-node{padding:9px 10px}.draw-node strong{font-size:10px}.draw-node span{font-size:9px}.numbers{grid-template-columns:repeat(2,minmax(0,1fr));gap:1px}.number{padding:17px}.number strong{font-size:24px}.number span{font-size:11px}.number small{font-size:9px}.steps,.feature-grid,.docs-grid{grid-template-columns:1fr}.class-list{grid-template-columns:1fr 1fr}.mode{padding:21px}.info-panel{padding:21px}.heading h2{font-size:30px}.footer-inner{display:block}.footer-links{margin-top:18px}.sample-json{font-size:10px}}
+    @media(max-width:340px){.hero-actions{grid-template-columns:1fr}.logo-txt small{letter-spacing:.06em}.model-panel{min-height:375px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+  </style>
 </head>
 <body>
-  <h1>Transformer Training with PyTorch and Hugging Face</h1>
+  <a class="skip" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <nav class="wrap nav" aria-label="Main navigation">
+      <a class="logo" href="https://su394611-del.github.io/" aria-label="Return to AI engineering portfolio">
+        <span class="logo-mark" aria-hidden="true">TF</span>
+        <span class="logo-txt"><strong>Transformer Training</strong><small>PyTorch · Hugging Face · DistilBERT</small></span>
+      </a>
+      <div class="nav-links">
+        <a href="#overview">Overview</a><a href="#workflow">Workflow</a><a href="#training">Training</a><a href="#evaluation">Evaluation</a><a href="#run">Run locally</a>
+        <a class="nav-cta" href="https://github.com/su394611-del/Transformers-Training" target="_blank" rel="noopener noreferrer">GitHub source <span aria-hidden="true">↗</span></a>
+      </div>
+      <details class="mobile-menu"><summary aria-label="Open navigation menu">Menu ☰</summary><div class="menu-links"><a href="#overview">Overview</a><a href="#workflow">Workflow</a><a href="#training">Training</a><a href="#evaluation">Evaluation</a><a href="#run">Run locally</a><a href="#resources">Documentation</a><a href="https://github.com/su394611-del/Transformers-Training" target="_blank" rel="noopener noreferrer">GitHub repository ↗</a></div></details>
+    </nav>
+  </header>
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div>
+        <div class="eyebrow"><span class="dot" aria-hidden="true"></span> AI ENGINEERING / MODEL TRAINING</div>
+        <h1 id="hero-title">Transformer training, <span class="gradient">from data to decisions.</span></h1>
+        <p class="hero-lead">Explore a source-linked <strong>DistilBERT text-classification workflow</strong> built with PyTorch and Hugging Face Transformers. Follow dataset preparation, full fine-tuning, frozen-backbone comparison, model evaluation, and inference through executable Python and Jupyter examples.</p>
+        <div class="hero-actions"><a class="btn btn-primary" href="#workflow">Explore workflow <span aria-hidden="true">↗</span></a><a class="btn btn-ghost" href="https://github.com/su394611-del/Transformers-Training" target="_blank" rel="noopener noreferrer">View source code <span aria-hidden="true">↗</span></a></div>
+        <p class="hero-note">A reproducible educational implementation with clearly documented data size and evaluation scope. Source code is the authority for implementation details.</p>
+      </div>
+      <div class="model-panel" role="img" aria-label="Illustrated classification architecture: customer-support text becomes tokenized input, passes through a DistilBERT encoder and classification head, and is categorized as billing, technical, account, or feature request.">
+        <div class="panel-label"><span>MODEL / ARCHITECTURE</span><span class="light">● FOUR-CLASS NLP</span></div>
+        <div class="pipeline-drawing" aria-hidden="true">
+          <div class="draw-node"><strong>Customer support ticket</strong><span>RAW TEXT</span></div><span class="draw-link"></span>
+          <div class="draw-node"><strong>Tokenizer + dynamic padding</strong><span>INPUT IDS</span></div><span class="draw-link"></span>
+          <div class="draw-node main-node"><strong>DistilBERT encoder</strong><span>TRANSFORMERS</span></div><span class="draw-link"></span>
+          <div class="draw-node"><strong>Classification head</strong><span>FOUR LOGITS</span></div><span class="draw-link"></span>
+          <div class="class-pills"><span>billing</span><span>technical</span><span>account</span><span>feature_request</span></div>
+        </div>
+        <div class="panel-foot">PRETRAINED BACKBONE · TASK-SPECIFIC CLASSIFICATION</div>
+      </div>
+    </section>
 
-  <p>
-    Examples of Transformer model training,
-    fine-tuning, evaluation and inference.
-  </p>
+    <section class="wrap numbers" aria-label="Project facts">
+      <div class="number"><strong>04</strong><span>Prediction categories</span><small>Support ticket labels</small></div>
+      <div class="number"><strong>30</strong><span>Illustrative text samples</span><small>24 train / 6 validation</small></div>
+      <div class="number"><strong>02</strong><span>Training approaches</span><small>Full vs frozen backbone</small></div>
+      <div class="number"><strong>128</strong><span>Maximum input tokens</span><small>Tokenizer truncation length</small></div>
+    </section>
 
-  <h2>Implemented Features</h2>
-  <ul>
-    <li>DistilBERT text classification</li>
-    <li>Four-class customer support ticket classification</li>
-    <li>Full model fine-tuning</li>
-    <li>Frozen-backbone training comparison</li>
-    <li>Model evaluation and inference</li>
-    <li>Python and Jupyter Notebook examples</li>
-  </ul>
+    <section class="wrap content-section" id="overview" aria-labelledby="overview-title">
+      <div class="heading"><p class="kicker">01 / PROJECT OVERVIEW</p><h2 id="overview-title">A complete learning workflow for text classification.</h2><p>The implementation uses the pretrained <code>distilbert-base-uncased</code> model with a four-label sequence-classification head. It prepares customer-support examples, tokenizes text, configures Hugging Face Trainer, compares training approaches, evaluates predictions, and runs inference on new support messages.</p></div>
+      <div class="two-col">
+        <article class="info-panel"><span class="section-mini">Business use case</span><h3>Support ticket categorization</h3><p>Transform free-form customer messages into structured categories to demonstrate a classification workflow for routing and analysis. Each training example contains the message text and one of four class labels.</p><div class="class-list"><div><strong>Billing</strong><small>Payments, invoices and refunds</small></div><div><strong>Technical</strong><small>Errors and application problems</small></div><div><strong>Account</strong><small>Access, ownership and user settings</small></div><div><strong>Feature request</strong><small>Requested product capabilities</small></div></div></article>
+        <article class="info-panel"><span class="section-mini">Technical foundation</span><h3>PyTorch + Hugging Face</h3><p>Core dependencies include PyTorch, Transformers, Datasets, Accelerate, NumPy, Pandas and scikit-learn. The script uses automatic CPU/CUDA detection, stratified train/validation splitting and a dynamic-padding collator.</p><div class="class-list"><div><strong>Model</strong><small>distilbert-base-uncased</small></div><div><strong>Trainer</strong><small>Hugging Face API</small></div><div><strong>Framework</strong><small>PyTorch</small></div><div><strong>Interface</strong><small>Python + Jupyter</small></div></div></article>
+      </div>
+    </section>
 
-  <h2>Experimental Work</h2>
-  <p>
-    A separate Phi-2 SFT/DPO is included
-    for architectural study. In the next iteration, there will be a production-grade project.
-  </p>
+    <section class="wrap content-section" id="workflow" aria-labelledby="workflow-title">
+      <div class="heading"><p class="kicker">02 / WORKFLOW</p><h2 id="workflow-title">Six stages, from examples to predictions.</h2><p>Explore the main execution path represented in the Python classifier source. The steps are designed to make the training lifecycle easy to follow, reproduce and inspect.</p></div>
+      <div class="steps">
+        <article class="step"><span class="step-num">01 / DATA</span><h3>Prepare labeled tickets</h3><p>Define 30 illustrative messages across four categories and create a stratified 80/20 split: 24 training examples and six validation examples.</p></article>
+        <article class="step"><span class="step-num">02 / TOKENIZATION</span><h3>Encode text sequences</h3><p>Use the DistilBERT tokenizer, truncate inputs to 128 tokens and dynamically pad batches with <code>DataCollatorWithPadding</code>.</p></article>
+        <article class="step"><span class="step-num">03 / MODEL</span><h3>Load the classifier</h3><p>Initialize a pretrained DistilBERT backbone with a four-class head, a fixed label mapping and training configuration.</p></article>
+        <article class="step"><span class="step-num">04 / TRAINING</span><h3>Compare two approaches</h3><p>Train the full sequence classifier, then train a second model with the DistilBERT backbone frozen and classification-head layers trainable.</p></article>
+        <article class="step"><span class="step-num">05 / EVALUATION</span><h3>Inspect evaluation outputs</h3><p>Calculate accuracy and weighted F1, generate a classification report and inspect the confusion matrix on the validation split.</p></article>
+        <article class="step"><span class="step-num">06 / INFERENCE</span><h3>Classify new messages</h3><p>Tokenize incoming text, run the trained model in inference mode and return its predicted category, top score and scores for every label.</p></article>
+      </div>
+    </section>
 
-  <h2>Source Code</h2>
-  <p>
-    <a href="https://github.com/su394611-del/Tarnsformers-Training">
-      View GitHub Repository
-    </a>
-  </p>
+    <section class="wrap content-section" id="training" aria-labelledby="training-title">
+      <div class="heading"><p class="kicker">03 / TRAINING STRATEGIES</p><h2 id="training-title">Full fine-tuning vs. a frozen backbone.</h2><p>The repository includes both configurations, making it possible to inspect differences in trainable parameters, learning rates and evaluation behavior without implying a universal winner.</p></div>
+      <div class="mode-grid">
+        <article class="mode"><span class="section-mini">Strategy A / End-to-end</span><h3>Full model fine-tuning</h3><p>Updates DistilBERT backbone parameters together with the sequence-classification head. The script evaluates each epoch and selects the best checkpoint using weighted F1.</p><div class="mode-bar" role="img" aria-label="All model parameters can be trained"><span></span></div><div class="mode-legend"><span>BACKBONE + HEAD</span><span>TRAINABLE</span></div><dl><div><dt>Epochs</dt><dd>4</dd></div><div><dt>Learning rate</dt><dd>2e-5</dd></div><div><dt>Train batch size</dt><dd>8</dd></div><div><dt>Checkpoint</dt><dd>Best weighted F1</dd></div></dl></article>
+        <article class="mode frozen"><span class="section-mini">Strategy B / Head training</span><h3>Frozen-backbone comparison</h3><p>Keeps pretrained DistilBERT encoder weights fixed while training the classifier and pre-classifier layers. It offers a clear comparison against end-to-end optimization.</p><div class="mode-bar" role="img" aria-label="The backbone stays frozen while the classification head is trained"><span></span></div><div class="mode-legend"><span>ENCODER FROZEN</span><span>HEAD TRAINABLE</span></div><dl><div><dt>Epochs</dt><dd>6</dd></div><div><dt>Learning rate</dt><dd>1e-3</dd></div><div><dt>Train batch size</dt><dd>8</dd></div><div><dt>Evaluation</dt><dd>Each epoch</dd></div></dl></article>
+      </div><p class="note">Training configurations shown above are read from the repository source. The visual bars illustrate which parts are trainable; they do not represent benchmark results or exact parameter percentages.</p>
+    </section>
 
-  <h2>Technical Documentation</h2>
-  <p>
-    <a href="https://github.com/su394611-del/Tarnsformers-Training/wiki">
-      High-Level and Low-Level Design Wiki
-    </a>
-  </p>
+    <section class="wrap content-section" aria-labelledby="capabilities-title">
+      <div class="heading"><p class="kicker">04 / IMPLEMENTATION DETAILS</p><h2 id="capabilities-title">Designed for hands-on exploration.</h2><p>Core capabilities are visible in the Python source and supported by a notebook companion, making the project useful for understanding real model-training APIs and evaluation workflows.</p></div>
+      <div class="feature-grid">
+        <article class="feature"><div class="glyph" aria-hidden="true">◇</div><h3>Reproducible data split</h3><p>Fixed random seed and stratified splitting retain representation of each support class in the small validation set.</p></article>
+        <article class="feature"><div class="glyph" aria-hidden="true">⌘</div><h3>Dynamic batch padding</h3><p>Hugging Face tokenizer and data collator encode examples and pad each batch without globally padding every sample to the maximum length.</p></article>
+        <article class="feature"><div class="glyph" aria-hidden="true">∑</div><h3>Trainer configuration</h3><p>TrainingArguments configure epoch counts, learning rates, batch sizes, evaluation, logging and checkpoint selection.</p></article>
+        <article class="feature"><div class="glyph" aria-hidden="true">◎</div><h3>CPU and CUDA support</h3><p>Device detection selects available hardware; mixed precision is configured according to CUDA support and hardware capabilities.</p></article>
+        <article class="feature"><div class="glyph" aria-hidden="true">≋</div><h3>Metrics and diagnostics</h3><p>Evaluation routines generate accuracy, weighted F1, a class-level classification report and confusion matrix.</p></article>
+        <article class="feature"><div class="glyph" aria-hidden="true">↗</div><h3>Prediction API in Python</h3><p>A <code>classify_query()</code> function returns the predicted class, a softmax-based confidence score and per-class scores.</p></article>
+      </div>
+    </section>
+
+    <section class="wrap content-section" id="evaluation" aria-labelledby="evaluation-title">
+      <div class="heading"><p class="kicker">05 / EVALUATION & OUTPUT</p><h2 id="evaluation-title">Make model behavior inspectable.</h2><p>The script exposes training and evaluation information instead of relying on an unsupported headline accuracy claim. Results depend on the runtime, data split and trained checkpoint.</p></div>
+      <div class="outputs"><article class="output"><h3>Evaluation outputs</h3><ul><li>Accuracy on the validation set</li><li>Weighted F1 for the four categories</li><li>Per-class precision, recall and F1 report</li><li>Confusion matrix and predictions</li><li>Training loss and run-time diagnostics</li></ul><p class="note">The repository uses just six validation examples. Results from such a small sample cannot establish production-level classification quality.</p></article><article class="output"><h3>Inference result structure</h3><p style="color:#acbfd5;font-size:13px;margin:0">A Python function produces a structured prediction for each new message. The example below shows the output fields, not a measured prediction.</p><div class="sample-json" aria-label="Illustrative inference schema">{
+  "query": "&lt;support ticket text&gt;",
+  "predicted_label": "&lt;one of four labels&gt;",
+  "confidence": "&lt;score from 0 to 1&gt;",
+  "all_scores": {
+    "billing": "&lt;score&gt;",
+    "technical": "&lt;score&gt;",
+    "account": "&lt;score&gt;",
+    "feature_request": "&lt;score&gt;"
+  }
+}</div></article></div>
+    </section>
+
+    <section class="wrap content-section" id="run" aria-labelledby="run-title">
+      <div class="heading"><p class="kicker">06 / RUN THE PROJECT</p><h2 id="run-title">Start from the repository in minutes.</h2><p>Use the documented classifier-only dependencies and the standalone Python script. A compatible PyTorch installation is required for your CPU or CUDA environment; the first run downloads model weights unless already cached.</p></div>
+      <div class="run-layout"><div class="code-card"><div class="code-head"><strong>Windows PowerShell · Python 3.12</strong><button id="copy-command" type="button" class="copy-btn" aria-label="Copy setup commands">Copy commands</button></div><pre id="install-commands"><span class="comment"># Clone the repository and enter the project</span>
+git clone https://github.com/su394611-del/Transformers-Training.git
+cd Transformers-Training
+
+<span class="comment"># Create and activate a virtual environment</span>
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+
+<span class="comment"># Install and run the classifier example</span>
+python -m pip install --upgrade pip
+python -m pip install -r requirements_distilbert.txt
+<span class="cmd">python DistilBERT_Colab_Fixed_2026.py</span></pre></div><div class="run-notes"><div class="run-note"><strong>GPU is optional</strong><p>The script can use CPU when CUDA is unavailable; training generally runs more slowly without a GPU.</p></div><div class="run-note"><strong>Jupyter and Colab</strong><p>Explore the companion <a href="https://github.com/su394611-del/Transformers-Training/blob/main/DistilBERT_Colab_Fixed_2026.ipynb" target="_blank" rel="noopener noreferrer">notebook</a> for an interactive workflow.</p></div><div class="run-note"><strong>Model artifacts</strong><p>The full fine-tuning path saves its selected model and tokenizer under <code>support_classifier/best_model/</code>.</p></div></div></div>
+    </section>
+
+    <section class="wrap content-section" id="resources" aria-labelledby="resources-title"><div class="heading"><p class="kicker">07 / SOURCE & DOCUMENTATION</p><h2 id="resources-title">Inspect the implementation.</h2><p>Go directly to the source files and technical documentation. The repository remains the source of truth for code, dependencies and execution details.</p></div>
+      <div class="docs-grid"><a class="resource" href="https://github.com/su394611-del/Transformers-Training" target="_blank" rel="noopener noreferrer"><span class="arrow" aria-hidden="true">↗</span><small>GitHub</small><strong>Project repository</strong><span>Browse files, branches, commits and the full project structure.</span></a>
+      <a class="resource" href="https://github.com/su394611-del/Transformers-Training/blob/main/README.md" target="_blank" rel="noopener noreferrer"><span class="arrow" aria-hidden="true">↗</span><small>Documentation</small><strong>README and setup</strong><span>Review execution steps, dependency notes and project scope.</span></a>
+      <a class="resource" href="https://github.com/su394611-del/Transformers-Training/blob/main/DistilBERT_Colab_Fixed_2026.py" target="_blank" rel="noopener noreferrer"><span class="arrow" aria-hidden="true">↗</span><small>Python</small><strong>Classifier source</strong><span>Inspect training, evaluation, inference and comparison logic.</span></a>
+      <a class="resource" href="https://github.com/su394611-del/Transformers-Training/blob/main/DistilBERT_Colab_Fixed_2026.ipynb" target="_blank" rel="noopener noreferrer"><span class="arrow" aria-hidden="true">↗</span><small>Notebook</small><strong>Interactive walkthrough</strong><span>Follow the model workflow in a Jupyter Notebook format.</span></a>
+      <a class="resource" href="https://github.com/su394611-del/Transformers-Training/blob/main/requirements_distilbert.txt" target="_blank" rel="noopener noreferrer"><span class="arrow" aria-hidden="true">↗</span><small>Dependencies</small><strong>Requirements file</strong><span>Install the model-classifier dependency subset.</span></a>
+      <a class="resource" href="https://github.com/su394611-del/Transformers-Training/wiki" target="_blank" rel="noopener noreferrer"><span class="arrow" aria-hidden="true">↗</span><small>Project wiki</small><strong>Architecture wiki</strong><span>Open the repository's separate GitHub Wiki when published.</span></a></div>
+    </section>
+
+    <section class="wrap content-section" id="faq" aria-labelledby="faq-title"><div class="heading"><p class="kicker">08 / FREQUENT QUESTIONS</p><h2 id="faq-title">Key implementation questions.</h2></div><div class="faqs">
+      <details><summary>What does this Transformer project classify?</summary><p>It assigns customer-support messages to billing, technical, account or feature_request categories using a four-label DistilBERT sequence classifier.</p></details>
+      <details><summary>What is the difference between full and frozen-backbone fine-tuning?</summary><p>Full fine-tuning updates the pretrained DistilBERT encoder and classification head. The comparison approach keeps the pretrained encoder fixed and updates the classification-head layers, changing the number of trainable parameters and optimization behavior.</p></details>
+      <details><summary>Does the project require multiple GPUs?</summary><p>No. The classifier script can run using CPU or a compatible CUDA device. Larger datasets and training runs may benefit from GPU acceleration.</p></details>
+      <details><summary>Are the evaluation numbers appropriate for production decisions?</summary><p>No production performance guarantee is established by this project. The source uses 30 illustrative labeled examples with only six validation rows. Evaluate on representative, sufficiently large data before using a model in a real support-routing system.</p></details>
+      <details><summary>Where are the Python script, notebook and documentation?</summary><p>The buttons in the Source &amp; Documentation section link directly to the Python classifier, Jupyter notebook, requirements file, README and GitHub Wiki location.</p></details>
+    </div></section>
+  </main>
+  <footer class="footer"><div class="wrap footer-inner"><div><strong>Transformer Training · PyTorch &amp; Hugging Face</strong><p>© 2026 Sudhanshu Shukla. Original contributions; consult the repository license and third-party notices.</p></div><div class="footer-links"><a href="https://su394611-del.github.io/">Portfolio home ↗</a><a href="https://github.com/su394611-del/Transformers-Training" target="_blank" rel="noopener noreferrer">GitHub repository ↗</a><a href="#main">Back to top ↑</a></div></div></footer>
+  <script>
+    (()=>{'use strict';
+      const button=document.getElementById('copy-command');
+      const commands=['git clone https://github.com/su394611-del/Transformers-Training.git','cd Transformers-Training','py -3.12 -m venv .venv','.\\.venv\\Scripts\\Activate.ps1','python -m pip install --upgrade pip','python -m pip install -r requirements_distilbert.txt','python DistilBERT_Colab_Fixed_2026.py'].join('\n');
+      if(button){button.addEventListener('click',async()=>{
+        const original='Copy commands';
+        try{await navigator.clipboard.writeText(commands);button.textContent='Copied ✓';}
+        catch(_){button.textContent='Select code to copy';}
+        window.setTimeout(()=>{button.textContent=original;},2400);
+      });}
+      document.querySelectorAll('.mobile-menu .menu-links a').forEach(link=>link.addEventListener('click',()=>{const menu=document.querySelector('.mobile-menu');if(menu)menu.open=false;}));
+    })();
+  </script>
 </body>
 </html>
