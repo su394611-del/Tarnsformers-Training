@@ -1,8 +1,8 @@
-# Transformers Training — DistilBERT Classifier and Phi-2 Alignment Draft
+# Transformers Training — DistilBERT Classifier and Phi-2 Alignment
 
- PyTorch/Hugging Face **four-class customer-support text classification** and a separate **unfinished Phi-2 SFT/DPO design **. It will be introduced in the next iteration.
+ PyTorch/Hugging Face **four-class customer-support text classification** and a separate **unfinished Phi-2 SFT/DPO ** (to be implemented in the next iteration). It will be introduced in the next iteration (complete production-grade pretraining and RLHF using DPO and PPO with an own small consumer-grade GPU GPT-style LLM).
 
-> **Implementation status:** `DistilBERT_Colab_Fixed_2026.py` and its Jupyter notebook parse successfully. The classifier has not been run end-to-end as part of this packaging task. `DPO_SFT.py` is preserved **unchanged**. ORPO is only an example string that is not executed.
+> **Implementation status:** `DistilBERT_Colab_Fixed_2026.py` and its Jupyter notebook parse successfully. The classifier has not been run end-to-end as part of this packaging task. `DPO_SFT.py` is preserved **unchanged**.
 
 ## Documentation
 
@@ -19,7 +19,7 @@
 |---|---|
 | `DistilBERT_Colab_Fixed_2026.py` | Pretrained DistilBERT, 30 labeled examples, full fine-tuning, frozen-backbone comparison, evaluation and inference |
 | `DistilBERT_Colab_Fixed_2026.ipynb` | Jupyter notebook companion |
-| `DPO_SFT.py` | **Incomplete** Phi-2 LoRA/SFT/DPO draft; do not execute as-is |
+| `DPO_SFT.py` | Phi-2 LoRA/SFT/DPO draft; do not execute as-is |
 | `requirements.txt` | Original unified requirements |
 | `requirements_distilbert.txt` | Smaller classifier-only install |
 
@@ -33,7 +33,7 @@ python -m pip install -r requirements_distilbert.txt
 python DistilBERT_Colab_Fixed_2026.py
 ```
 
-The first execution downloads the pretrained `distilbert-base-uncased` model unless cached. The 30-row dataset is embedded in source and split 24/6 for training/validation. Saved full-model output is placed under `support_classifier/best_model/`. No fixed accuracy figures are claimed from this tiny dataset.
+The first run downloads the pretrained `distilbert-base-uncased` model unless it is cached. The 30-row dataset is embedded in the source and split 24/6 for training/validation. The saved full-model output is placed under `support_classifier/best_model/`. No fixed accuracy figures are claimed from this tiny dataset.
 
 ## Publish the Wiki
 
@@ -50,8 +50,8 @@ The publisher uses a fresh temporary Git checkout, previews changes, and asks yo
 
 ## Validation
 
-Run `python scripts/check-package.py`. It checks source presence/AST syntax, notebook JSON and code-cell syntax, Mermaid blocks, cross-page links, and Markdown pages. It intentionally reports the existing `DPO_SFT.py` parse failure as an **expected source limitation**.
+Run `python scripts/check-package.py`. It checks source presence/AST syntax, notebook JSON and code-cell syntax, Mermaid blocks, cross-page links, and Markdown pages. This project is licensed under the Apache License, Version 2.0.© 2026 Sudhanshu Shukla · Licensed under the Apache License, Version 2.0
 
 ## Privacy and license
 
-Review before publishing; do not commit credentials, confidential examples, cached model weights, `.venv`, or large checkpoints. **No LICENSE was supplied**, so no license has been assigned by this packaging task. Verify any third-party pretrained model license separately.
+Review before publishing; do not commit credentials, confidential examples, cached model weights, `.venv`, or large checkpoints. This project is licensed under the Apache License, Version 2.0.© 2026 Sudhanshu Shukla · Licensed under the Apache License, Version 2.0.
